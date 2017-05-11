@@ -20,6 +20,9 @@ GameState.prototype.preload = function() {
     this.game.load.image('enemy2', 'Assets/2.png');
     this.game.load.image('enemy3', 'Assets/3.png');
     
+    //Som BG
+    this.game.load.audio('somBG','Assets/bgSound.ogg');
+    
     //Chão
     this.game.load.image('background', 'Assets/chao (2).png');
 }
@@ -30,6 +33,11 @@ GameState.prototype.create = function() {
     //this.game.stage.backgroundColor = "#0082bc";
     
     this.game.add.tileSprite(0, 0, 800, 600, 'background');
+    
+    //Som BG
+    this.music = game.add.audio('somBG');
+    //Som BG - Tocando
+    this.music.play();
     
     //physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
