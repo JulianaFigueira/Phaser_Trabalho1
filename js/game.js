@@ -19,12 +19,17 @@ GameState.prototype.preload = function() {
     this.game.load.image('enemy1', 'Assets/1.png');
     this.game.load.image('enemy2', 'Assets/2.png');
     this.game.load.image('enemy3', 'Assets/3.png');
+    
+    //Chão
+    this.game.load.image('background', 'Assets/chao (2).png');
 }
 
 // create: instanciar e inicializar todos os objetos dessa scene
 GameState.prototype.create = function() {
     // Cor de fundo - #0082bc é um tom de azul
-    this.game.stage.backgroundColor = "#0082bc";
+    //this.game.stage.backgroundColor = "#0082bc";
+    
+    this.game.add.tileSprite(0, 0, 800, 600, 'background');
     
     //physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -54,22 +59,32 @@ GameState.prototype.create = function() {
     // https://photonstorm.github.io/phaser-ce/Phaser.RandomDataGenerator.html
     console.debug(this.enemies[1]);
     
+    
+    //Parallax, OBS: falta ajustar altura da movimentação
+    // https://www.joshmorony.com/how-to-create-a-parallax-background-in-phaser/
+    this.background = this.game.add.tileSprite(0, 
+        this.game.height - this.game.cache.getImage('background').height, 
+        this.game.width , 
+        this.game.cache.getImage('background').height, 
+        'background'
+    );
+    
 }
 
 // update: o que fazer a cada quadro por segundo
 GameState.prototype.update = function() {
-   
+
     // Movimentação do player
     // Para detectar se uma das teclas referenciadas foi pressionada,
     // basta verificar a variável .isDown da mesma
     // Caso seja a tecla para a esquerda, ajustar uma velocidade negativa
     // ao eixo X, que fará a posição X diminuir e consequentemente o jogador
     // ir para a esquerda;
-    if(this.leftKey.isDown){
+    if(this.leftKey.isDown && this.player.x>35){
         this.player.x -= 5;
     }
     // De maneira análoga, caso seja a tecla para a direita, ajustar uma velocidade positiva no eixo X, aumentando a posição X com o tempo;
-    else if(this.rightKey.isDown){
+    else if(this.rightKey.isDown && this.player.x<765){
         this.player.x += 5;
     }
     
@@ -77,7 +92,10 @@ GameState.prototype.update = function() {
     {
          this.createEnemies();
     }
-        
+    
+    
+    //Parallax background
+    this.background.tilePosition.y += 0.05;
 }
 
 GameState.prototype.createEnemies = function() {
