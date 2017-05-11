@@ -29,6 +29,7 @@ GameState.prototype.preload = function() {
 
 // create: instanciar e inicializar todos os objetos dessa scene
 GameState.prototype.create = function() {
+    var me = this;
     // Cor de fundo - #0082bc é um tom de azul
     //this.game.stage.backgroundColor = "#0082bc";
     
@@ -49,11 +50,18 @@ GameState.prototype.create = function() {
     this.player.animations.play('walk', 5, true);
     this.player.anchor.setTo(0.5, 0.5);
     
-     this.enemies = ['enemy1', 'enemy2', 'enemy3'];
-     this.verticalObstacles = this.game.add.group();
-     this.verticalObstacles.enableBody = true;
-     this.verticalObstacles.setAll('checkWorldBounds', true);
-     this.verticalObstacles.setAll('outOfBoundsKill', true);
+    //Add a platforms group to hold all of our tiles, and create a bunch of them
+    /*https://www.joshmorony.com/how-to-create-an-infinite-climbing-game-in-phaser/
+    me.enemys = me.game.add.group();
+    me.enemys.enableBody = true;
+    me.enemys.createMultiple(3, 'enemy1');*/
+    
+    this.enemies = ['enemy1', 'enemy2', 'enemy3'];
+    
+    this.verticalObstacles = this.game.add.group();
+    this.verticalObstacles.enableBody = true;
+    this.verticalObstacles.setAll('checkWorldBounds', true);
+    this.verticalObstacles.setAll('outOfBoundsKill', true);
     
     // Inicializando teclas
     // Para poder utilizar uma tecla do teclado, vamos guardar uma referência a uma tecla específica em uma variável
@@ -66,7 +74,6 @@ GameState.prototype.create = function() {
     // Esta linha apenas imprime um número aleatório entre 1 e 10, no console do navegador (F12)
     // https://photonstorm.github.io/phaser-ce/Phaser.RandomDataGenerator.html
     console.debug(this.enemies[1]);
-    
     
     //Parallax, OBS: falta ajustar altura da movimentação
     // https://www.joshmorony.com/how-to-create-a-parallax-background-in-phaser/
@@ -103,7 +110,7 @@ GameState.prototype.update = function() {
     
     
     //Parallax background
-    this.background.tilePosition.y += 0.05;
+    this.background.tilePosition.y += 1;
 }
 
 GameState.prototype.createEnemies = function() {
