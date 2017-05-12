@@ -10,6 +10,7 @@
 //As funções sempre começam com NomeDoObjeto.prototype 
 var GameState = function(game) {};
 
+var fallingSpeed = 150.0;
 // preload: carregar todos os assets necessários para esta scene ou para as próximas
 GameState.prototype.preload = function() {
     // Para carregar um sprite, basta dar um nome ao mesmo e dizer qual é o arquivo
@@ -72,17 +73,16 @@ GameState.prototype.create = function() {
 
 GameState.prototype.createPlayer = function(){
     // Adicionando o sprite do jogador na posição (400, 300) usando o asset 'player'
-    this.player = this.game.add.sprite(350, 320, 'player');
+    this.player = this.game.add.sprite(350, 540, 'player');
     this.player.animations.add('walk');
     this.player.animations.play('walk', 5, true);
     this.player.anchor.setTo(0.5, 0.5);
     this.game.physics.arcade.enable(this.player);
-    this.player.body.setCircle(28);
-    this.player.body.fixedRotation = true;
-
+    //this.player.body.setCircle(28);
+    //this.player.body.fixedRotation = true;
+    this.player.body.velocity.y = -fallingSpeed*0.1;
     //this.player.body.gravity.y = 0;
-    this.player.body.collideWorldBounds = true;
-
+    //this.player.body.collideWorldBounds = true;
 }
 
 // update: o que fazer a cada quadro por segundo
@@ -99,12 +99,10 @@ GameState.prototype.update = function() {
     // ir para a esquerda;
     if(this.leftKey.isDown && this.player.x > 280){
         this.player.x -= 5;
-        this.player.body.velocity.x = -10;
     }
     // De maneira análoga, caso seja a tecla para a direita, ajustar uma velocidade positiva no eixo X, aumentando a posição X com o tempo;
     else if(this.rightKey.isDown && this.player.x < 500){
         this.player.x += 5;
-        this.player.body.velocity.x = 10;
     } /*else if(this.upKey.isDown && this.player.y<this.game.world.height - 100){
         this.player.y -= 5;
         this.player.body.velocity.y = -10;
@@ -119,6 +117,9 @@ GameState.prototype.update = function() {
     //Check if the player is touching the bottom
     if(this.player.y >= this.game.world.height - 50){
         this.gameOver();
+    } else if(this.player.y <= 50){
+        fallingSpeed = fallingSpeed * 1.1;
+        this.player.y = 540;
     }
 }
 
@@ -162,7 +163,7 @@ GameState.prototype.createEnemies = function() {
 GameState.prototype.initEnemies = function() {
 
     var me = this,
-    bottom = me.game.world.height - me.tileHeight,
+    bottom = me.game.world.height - me.tileHeight*2,
     top = me.tileHeight;
 
     //Keep creating platforms until they reach (near) the top of the screen
@@ -199,7 +200,7 @@ GameState.prototype.addEnemy = function(x, y) {
     if(isNaN(tile))
     {
         tile.reset(x, y);
-        tile.body.velocity.y = 150; 
+        tile.body.velocity.y = fallingSpeed; 
         tile.body.immovable = true;
         //When the tile leaves the screen, kill it
         tile.checkWorldBounds = true;
@@ -226,7 +227,7 @@ GameState.prototype.addEnemies = function(y) {
     //Don't add tiles where the random hole is
     for (var i = 0; i <= tilesNeeded; i++){
         if (i != hole){
-            this.addEnemy(i * me.tileWidth + 320, y); 
+            this.addEnemy(i * me.tileWidth*1.5 + 320, y); 
         } 	    	
     }
 }
