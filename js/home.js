@@ -13,12 +13,16 @@ var HomeState = function(game) {};
 // preload: carregar todos os assets necessários para esta scene ou para as próximas
 HomeState.prototype.preload = function() {
     // Não há nenhum asset a ser carregado aqui, então a função fica vazia
+      this.game.load.image('play', 'Assets/play.png');
+   
 }
 
 // create: instanciar e inicializar todos os objetos dessa scene
 HomeState.prototype.create = function() {
-    this.game.add.text(170, 300, "home + credits page (play = spacebar)", {fill: "#ffffff"});
+    game.add.image(game.world.centerX, game.world.centerY, 'play').anchor.set(0.5);
+    this.game.add.text(170, 500, "home + credits page (play = spacebar)", {fill: "#ffffff"});
     this.PlayKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  
 }
 
 // update: o que fazer a cada quadro por segundo
