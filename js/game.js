@@ -27,6 +27,7 @@ GameState.prototype.preload = function() {
 
 var tilesprite;
 
+
 // create: instanciar e inicializar todos os objetos dessa scene
 GameState.prototype.create = function() {
     this.game.add.tileSprite(0, 0, 800, 600, 'background');
@@ -43,6 +44,7 @@ GameState.prototype.create = function() {
     this.music = game.add.audio('somBG');
     //Som BG - Tocando
     this.music.play();
+    
     
     //physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -178,6 +180,8 @@ GameState.prototype.createScore = function(){
 
 GameState.prototype.gameOver = function() {
     this.game.state.start('lose');
+    //Som BG - Parar som ao perder
+    this.music.stop();
     }
 
 GameState.prototype.addEnemy = function(x, y) {
