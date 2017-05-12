@@ -19,7 +19,6 @@ LoseState.prototype.preload = function() {
 // create: instanciar e inicializar todos os objetos dessa scene
 LoseState.prototype.create = function() {
     this.game.add.image(game.world.centerX, game.world.centerY, 'lose').anchor.set(0.5);
-    this.game.add.text(400, 300, "You Lose (home = spacebar)", {fill: "#ffffff"});
     this.HomeKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 }
 
