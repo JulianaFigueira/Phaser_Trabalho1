@@ -191,10 +191,10 @@ GameState.prototype.addEnemy = function(x, y) {
         tile.reset(x, y);
         tile.body.velocity.y = 150; 
         tile.body.immovable = true;
+        //When the tile leaves the screen, kill it
+        tile.checkWorldBounds = true;
+        tile.outOfBoundsKill = true;	
     }
-    //When the tile leaves the screen, kill it
-    tile.checkWorldBounds = true;
-    tile.outOfBoundsKill = true;	
 }
 
 GameState.prototype.addEnemies = function(y) {    
