@@ -91,9 +91,8 @@ GameState.prototype.createPlayer = function(){
 GameState.prototype.update = function() {
     
     //Make the sprite collide with the ground layer
-    this.player.body.checkCollision.up = this.game.physics.arcade.collide(this.player, this.verticalObstacles);
-    
-    console.debug("Colidiu: " + this.player.body.checkCollision.up);
+    this.game.physics.arcade.collide(this.player, this.verticalObstacles);
+    console.debug("Colidiu: " + this.player.body.checkCollision);
     // Movimentação do player
     // Para detectar se uma das teclas referenciadas foi pressionada,
     // basta verificar a variável .isDown da mesma
