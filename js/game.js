@@ -27,13 +27,22 @@ GameState.prototype.preload = function() {
     this.game.load.image('background', 'Assets/chao (2).png');
 }
 
+var tilesprite;
+
 // create: instanciar e inicializar todos os objetos dessa scene
 GameState.prototype.create = function() {
     var me = this;
     // Cor de fundo - #0082bc é um tom de azul
     //this.game.stage.backgroundColor = "#0082bc";
     
-    this.game.add.tileSprite(0, 0, 800, 600, 'background');
+    //Parallax, OBS: falta ajustar altura da movimentação
+    // https://www.joshmorony.com/how-to-create-a-parallax-background-in-phaser/
+    this.background = this.game.add.tileSprite(0, 
+        0, 
+        this.game.width , 
+        this.game.height, 
+        'background'
+    );
     
     //Som BG
     this.music = game.add.audio('somBG');
@@ -75,14 +84,6 @@ GameState.prototype.create = function() {
     // https://photonstorm.github.io/phaser-ce/Phaser.RandomDataGenerator.html
     console.debug(this.enemies[1]);
     
-    //Parallax, OBS: falta ajustar altura da movimentação
-    // https://www.joshmorony.com/how-to-create-a-parallax-background-in-phaser/
-    this.background = this.game.add.tileSprite(0, 
-        this.game.height - this.game.cache.getImage('background').height, 
-        this.game.width , 
-        this.game.cache.getImage('background').height, 
-        'background'
-    );
     
 }
 
