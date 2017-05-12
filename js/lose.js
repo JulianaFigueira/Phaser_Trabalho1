@@ -24,7 +24,7 @@ LoseState.prototype.create = function() {
     this.game.add.image(game.world.centerX, game.world.centerY, 'lose').anchor.set(0.5);
     this.game.add.text(200, 210, "You Lose (home = spacebar)", {fill: "#ffffff"});
     this.HomeKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    
+
     //Som BG
     this.music = game.add.audio('gameOverSongBG');
     //Som BG - Tocando

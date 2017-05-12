@@ -26,8 +26,6 @@ GameState.prototype.preload = function() {
 }
 
 var tilesprite;
-
-
 // create: instanciar e inicializar todos os objetos dessa scene
 GameState.prototype.create = function() {
     //this.game.add.tileSprite(0, 0, 800, 600, 'background');
@@ -92,7 +90,7 @@ GameState.prototype.update = function() {
     
     //Make the sprite collide with the ground layer
     this.game.physics.arcade.collide(this.player, this.verticalObstacles);
-    console.debug("Colidiu: " + this.player.body.checkCollision);
+    
     // Movimentação do player
     // Para detectar se uma das teclas referenciadas foi pressionada,
     // basta verificar a variável .isDown da mesma
@@ -180,7 +178,7 @@ GameState.prototype.createScore = function(){
 
     var scoreFont = "100px Arial";
 
-    me.scoreLabel = me.game.add.text((me.game.world.centerX), 100, "0", {font: scoreFont, fill: "#fff"}); 
+    me.scoreLabel = me.game.add.text(60, 20,'Score: 0',{fontStyle:'bold', fontSize: '22px', font: scoreFont, fill: "#fff"}); 
     me.scoreLabel.anchor.setTo(0.5, 0.5);
     me.scoreLabel.align = 'center';
 
@@ -236,6 +234,6 @@ GameState.prototype.addEnemies = function(y) {
 GameState.prototype.incrementScore = function(){
     var me = this;
     me.score += 1;   
-    me.scoreLabel.text = me.score; 		
+    me.scoreLabel.text = 'Score: ' + me.score;
 
 }
