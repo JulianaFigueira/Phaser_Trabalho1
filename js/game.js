@@ -30,7 +30,7 @@ var tilesprite;
 
 // create: instanciar e inicializar todos os objetos dessa scene
 GameState.prototype.create = function() {
-    this.game.add.tileSprite(0, 0, 800, 600, 'background');
+    //this.game.add.tileSprite(0, 0, 800, 600, 'background');
     //Parallax, OBS: falta ajustar altura da movimentação
     // https://www.joshmorony.com/how-to-create-a-parallax-background-in-phaser/
     this.background = this.game.add.tileSprite(0, 
@@ -50,14 +50,7 @@ GameState.prototype.create = function() {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     
     // Inicializando jogador
-    // Adicionando o sprite do jogador na posição (400, 300) usando o asset 'player'
-    this.player = this.game.add.sprite(400, 320, 'player');
-    this.player.animations.add('walk');
-    this.player.animations.play('walk', 5, true);
-    this.player.anchor.setTo(0.5, 0.5);
-    this.game.physics.arcade.enable(this.player);
-    this.player.body.gravity.y = 0;
-    this.player.body.collideWorldBounds = true;
+    this.createPlayer();
     
     this.createEnemies();
      //Create the inital on screen platforms
@@ -74,46 +67,62 @@ GameState.prototype.create = function() {
     // Lista de teclas disponíveis: https://photonstorm.github.io/phaser-ce/Phaser.KeyCode.html
     // Na chamada abaixo guardamos uma referência à tecla esquerda do teclado na variável this.leftKey, para uso posterior na função update()
     this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-    this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);  
-    this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);  
-    this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);  
+    this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+    /*this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);
+    this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);*/
+}
+
+GameState.prototype.createPlayer = function(){
+    // Adicionando o sprite do jogador na posição (400, 300) usando o asset 'player'
+    this.player = this.game.add.sprite(350, 320, 'player');
+    this.player.animations.add('walk');
+    this.player.animations.play('walk', 5, true);
+    this.player.anchor.setTo(0.5, 0.5);
+    this.game.physics.arcade.enable(this.player);
+    this.player.body.setCircle(28);
+    this.player.body.fixedRotation = true;
+
+    //this.player.body.gravity.y = 0;
+    this.player.body.collideWorldBounds = true;
+
 }
 
 // update: o que fazer a cada quadro por segundo
 GameState.prototype.update = function() {
     
     //Make the sprite collide with the ground layer
-    this.game.physics.arcade.collide(this.player, this.verticalObstacles);
+    this.player.body.checkCollision.up = this.game.physics.arcade.collide(this.player, this.verticalObstacles);
     
-    //Check if the player is touching the bottom
-    if(this.player.y >= this.game.world.height - 50){
-        this.gameOver();
-    }
-
+    console.debug("Colidiu: " + this.player.body.checkCollision.up);
     // Movimentação do player
     // Para detectar se uma das teclas referenciadas foi pressionada,
     // basta verificar a variável .isDown da mesma
     // Caso seja a tecla para a esquerda, ajustar uma velocidade negativa
     // ao eixo X, que fará a posição X diminuir e consequentemente o jogador
     // ir para a esquerda;
-    if(this.leftKey.isDown && this.player.x>280){
+    if(this.leftKey.isDown && this.player.x > 280){
         this.player.x -= 5;
         this.player.body.velocity.x = -10;
     }
     // De maneira análoga, caso seja a tecla para a direita, ajustar uma velocidade positiva no eixo X, aumentando a posição X com o tempo;
-    else if(this.rightKey.isDown && this.player.x<500){
+    else if(this.rightKey.isDown && this.player.x < 500){
         this.player.x += 5;
         this.player.body.velocity.x = 10;
-    } else if(this.upKey.isDown && this.player.y<this.game.world.height - 100){
+    } /*else if(this.upKey.isDown && this.player.y<this.game.world.height - 100){
         this.player.y -= 5;
         this.player.body.velocity.y = -10;
     } else if(this.downKey.isDown && this.player.y > 100 ){
         this.player.y += 5;
         this.player.body.velocity.y = 10;
-    }
+    }*/
     
     //Parallax background
     this.background.tilePosition.y += 1;
+    
+    //Check if the player is touching the bottom
+    if(this.player.y >= this.game.world.height - 50){
+        this.gameOver();
+    }
 }
 
 GameState.prototype.createEnemies = function() {

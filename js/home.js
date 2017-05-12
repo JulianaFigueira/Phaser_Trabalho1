@@ -20,7 +20,7 @@ HomeState.prototype.preload = function() {
 // create: instanciar e inicializar todos os objetos dessa scene
 HomeState.prototype.create = function() {
     game.add.image(game.world.centerX, game.world.centerY, 'play').anchor.set(0.5);
-    this.game.add.text(170, 500, "home + credits page (play = spacebar)", {fill: "#ffffff"});
+    this.game.add.text(170, 350, "home + credits page (play = spacebar)", {fill: "#ffffff"});
     this.PlayKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   
 }
